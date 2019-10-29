@@ -3,7 +3,7 @@
 DESTDIR=
 PREFIX=/usr/local
 MANDIR=/usr/share/man/man7/
-CFLAGS=-g -O2 -Wall -Wno-unused-variable
+CFLAGS=-g -O2 -Wall -Wno-unused-variable `pkg-config --cflags libusb-1.0`
 LDFLAGS=-lm -lpthread -lusb -lrt
 
 CC=gcc
@@ -19,7 +19,7 @@ INSTALL_BIN=install -m 0755
 ZIP= gzip
 
 attenuator: LDAhid.o control.o input.o
-	$(LD) $(LDFLAGS) -o attenuator_lab_brick LDAhid.o control.o input.o
+	$(LD) $(LDFLAGS) -o attenuator_lab_brick LDAhid.o control.o input.o `pkg-config --libs libusb-1.0` -pthread
 
 %.o: %.c $(DEPS)
 	$(CC) $(CFLAGS) -c -o '$@' '$<'
